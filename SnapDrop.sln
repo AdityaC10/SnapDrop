@@ -1,0 +1,66 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.App", "src\SnapDrop.App\SnapDrop.App.csproj", "{11111111-44B1-4F6D-8E2E-111111111111}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Core", "src\SnapDrop.Core\SnapDrop.Core.csproj", "{22222222-44B1-4F6D-8E2E-222222222222}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Windows", "src\SnapDrop.Windows\SnapDrop.Windows.csproj", "{33333333-44B1-4F6D-8E2E-333333333333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Infrastructure", "src\SnapDrop.Infrastructure\SnapDrop.Infrastructure.csproj", "{44444444-44B1-4F6D-8E2E-444444444444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Core.Tests", "tests\SnapDrop.Core.Tests\SnapDrop.Core.Tests.csproj", "{55555555-44B1-4F6D-8E2E-555555555555}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Infrastructure.Tests", "tests\SnapDrop.Infrastructure.Tests\SnapDrop.Infrastructure.Tests.csproj", "{66666666-44B1-4F6D-8E2E-666666666666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.Windows.Tests", "tests\SnapDrop.Windows.Tests\SnapDrop.Windows.Tests.csproj", "{77777777-44B1-4F6D-8E2E-777777777777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.DropProbe", "tools\SnapDrop.DropProbe\SnapDrop.DropProbe.csproj", "{88888888-44B1-4F6D-8E2E-888888888888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapDrop.ClipboardProbe", "tools\SnapDrop.ClipboardProbe\SnapDrop.ClipboardProbe.csproj", "{99999999-44B1-4F6D-8E2E-999999999999}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11111111-44B1-4F6D-8E2E-111111111111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-44B1-4F6D-8E2E-111111111111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-44B1-4F6D-8E2E-111111111111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-44B1-4F6D-8E2E-111111111111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22222222-44B1-4F6D-8E2E-222222222222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22222222-44B1-4F6D-8E2E-222222222222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22222222-44B1-4F6D-8E2E-222222222222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22222222-44B1-4F6D-8E2E-222222222222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33333333-44B1-4F6D-8E2E-333333333333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33333333-44B1-4F6D-8E2E-333333333333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33333333-44B1-4F6D-8E2E-333333333333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33333333-44B1-4F6D-8E2E-333333333333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44444444-44B1-4F6D-8E2E-444444444444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44444444-44B1-4F6D-8E2E-444444444444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44444444-44B1-4F6D-8E2E-444444444444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44444444-44B1-4F6D-8E2E-444444444444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55555555-44B1-4F6D-8E2E-555555555555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55555555-44B1-4F6D-8E2E-555555555555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55555555-44B1-4F6D-8E2E-555555555555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55555555-44B1-4F6D-8E2E-555555555555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66666666-44B1-4F6D-8E2E-666666666666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66666666-44B1-4F6D-8E2E-666666666666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66666666-44B1-4F6D-8E2E-666666666666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66666666-44B1-4F6D-8E2E-666666666666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77777777-44B1-4F6D-8E2E-777777777777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77777777-44B1-4F6D-8E2E-777777777777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77777777-44B1-4F6D-8E2E-777777777777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77777777-44B1-4F6D-8E2E-777777777777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88888888-44B1-4F6D-8E2E-888888888888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88888888-44B1-4F6D-8E2E-888888888888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88888888-44B1-4F6D-8E2E-888888888888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88888888-44B1-4F6D-8E2E-888888888888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99999999-44B1-4F6D-8E2E-999999999999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99999999-44B1-4F6D-8E2E-999999999999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99999999-44B1-4F6D-8E2E-999999999999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99999999-44B1-4F6D-8E2E-999999999999}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
