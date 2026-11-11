@@ -1,0 +1,22 @@
+<Window x:Class="SnapDrop.App.Views.OnboardingWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Welcome to SnapDrop" Width="1080" Height="720" MinWidth="800" MinHeight="620" WindowStartupLocation="CenterScreen">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Padding="24,16" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"><TextBlock Text="SnapDrop" FontSize="22" FontWeight="SemiBold"/></Border>
+    <Border DockPanel.Dock="Left" Width="210" Background="{DynamicResource SidebarBrush}" Padding="24,30"><StackPanel><TextBlock Text="Welcome" FontWeight="SemiBold" Margin="0,0,0,28"/><TextBlock Text="Key features" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,28"/><TextBlock Text="Quick setup" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,28"/><TextBlock Text="Windows shortcut" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,28"/><TextBlock Text="Ready to capture" Foreground="{DynamicResource SecondaryTextBrush}"/></StackPanel></Border>
+    <DockPanel Margin="36,30">
+      <StackPanel DockPanel.Dock="Bottom"><TextBlock Text="{Binding Status}" TextWrapping="Wrap" Margin="0,0,0,16" AutomationProperties.LiveSetting="Polite"/><DockPanel><Button Content="Skip setup" Command="{Binding SkipCommand}" HorizontalAlignment="Left"/><StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Back" Command="{Binding BackCommand}" Margin="0,0,10,0"/><Button Content="{Binding NextLabel}" Command="{Binding NextCommand}" Style="{StaticResource PrimaryButton}"/></StackPanel></DockPanel></StackPanel>
+      <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+        <TextBlock Text="{Binding Heading}" Style="{StaticResource PageTitle}" FontSize="28"/><TextBlock Text="{Binding Body}" FontSize="15" Style="{StaticResource SecondaryText}" Margin="0,12,0,24"/>
+        <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="{StaticResource PanelRadius}" Padding="26" Margin="0,0,0,22"><StackPanel Orientation="Horizontal"><Path Data="{StaticResource Icon.Capture}" Stroke="{DynamicResource FocusBrush}" StrokeThickness="1.6" Width="70" Height="70" Stretch="Uniform" Margin="0,0,26,0"/><StackPanel VerticalAlignment="Center"><TextBlock Text="Capture → preview → drag or save" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Win + Shift + S · Windows Snipping Tool" Style="{StaticResource SecondaryText}" Margin="0,8,0,0"/><TextBlock Text="Recovery copies remain available after dismissal." Style="{StaticResource SecondaryText}" Margin="0,8,0,0"/></StackPanel></StackPanel></Border>
+        <StackPanel DataContext="{Binding Preferences}" Visibility="{Binding DataContext.IsSetup, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibility}}">
+          <CheckBox Content="Show new clipboard images in SnapDrop" IsChecked="{Binding Monitoring}" AutomationProperties.Name="Consent to clipboard image monitoring"/>
+          <TextBlock Text="This includes images copied from other apps. Keep monitoring off if you do not want them stored." Style="{StaticResource SecondaryText}" Margin="0,6,0,14"/>
+          <CheckBox Content="Start with Windows" IsChecked="{Binding Startup}"/>
+          <TextBlock Text="Default save folder" Margin="0,14,0,8"/><DockPanel><Button Content="Browse…" Command="{Binding BrowseCommand}" DockPanel.Dock="Right" Margin="10,0,0,0"/><TextBox Text="{Binding DefaultFolder, UpdateSourceTrigger=LostFocus}" AutomationProperties.Name="Default screenshot folder"/></DockPanel>
+          <TextBlock Text="{Binding Status}" Style="{StaticResource SecondaryText}" Margin="0,10,0,0"/>
+        </StackPanel>
+        <Button Content="Try Windows capture" Command="{Binding CaptureCommand}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Visibility="{Binding IsLast, Converter={StaticResource BooleanToVisibility}}"/>
+      </StackPanel></ScrollViewer>
+    </DockPanel>
+  </DockPanel>
+</Window>

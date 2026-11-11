@@ -1,0 +1,55 @@
+<Window x:Class="SnapDrop.App.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SnapDrop settings" Width="600" Height="760" MinWidth="470" MinHeight="450">
+  <DockPanel Margin="24">
+    <StackPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+      <TextBlock x:Name="StatusText" TextWrapping="Wrap" Margin="0,0,0,12" AutomationProperties.LiveSetting="Polite" />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button Content="Close" Click="CloseClick" /><Button x:Name="ApplyButton" Content="Apply settings" Click="ApplyClick" IsDefault="True" />
+      </StackPanel>
+    </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="0,0,12,0">
+        <TextBlock x:Name="Heading" Text="Settings" FontSize="24" FontWeight="SemiBold" />
+        <TextBlock x:Name="Introduction" Margin="0,8,0,0" TextWrapping="Wrap"
+                   Text="Capture with Win + Shift + S. Drag the thumbnail, copy the image, or choose Save As." />
+        <TextBlock Text="Clipboard images" Style="{StaticResource SectionHeading}" />
+        <CheckBox x:Name="Monitoring" Content="Show previews for new clipboard images" AutomationProperties.Name="Enable monitoring of new clipboard images" />
+        <TextBlock TextWrapping="Wrap" Text="While enabled, SnapDrop reads new clipboard images, including images copied from other apps. Recovery copies stay on this computer for the configured retention period. Pause monitoring from the tray menu." />
+        <TextBlock Margin="0,8,0,0" TextWrapping="Wrap" Text="Snipping Tool's own previews and automatic saving are independent. SnapDrop does not change those Windows settings." />
+        <TextBlock Text="Floating preview" Style="{StaticResource SectionHeading}" />
+        <Label Content="Preview duration (2–30 seconds; 0 means Never)" Target="{Binding ElementName=PreviewSeconds}" Padding="0,0,0,6" />
+        <TextBox x:Name="PreviewSeconds" Width="100" HorizontalAlignment="Left" AutomationProperties.Name="Preview duration in seconds" />
+        <TextBlock Margin="0,8,0,0" TextWrapping="Wrap" Text="Hover, keyboard focus, Pin, dragging, and saving pause the timer. Pin keeps a thumbnail visible; Keep prevents its recovery copy from expiring." />
+        <TextBlock Text="Saving" Style="{StaticResource SectionHeading}" />
+        <Label Content="Default folder" Target="{Binding ElementName=DefaultFolder}" Padding="0,0,0,6" />
+        <DockPanel>
+          <Button Content="Browse…" DockPanel.Dock="Right" Click="BrowseClick" Margin="8,0,0,0" />
+          <TextBox x:Name="DefaultFolder" AutomationProperties.Name="Default save folder" />
+        </DockPanel>
+        <Label Content="Default export format" Target="{Binding ElementName=Format}" Padding="0,12,0,6" />
+        <ComboBox x:Name="Format" Width="180" HorizontalAlignment="Left" SelectedIndex="0" AutomationProperties.Name="Default export format">
+          <ComboBoxItem Content="PNG — lossless" /><ComboBoxItem Content="JPEG — quality 92" />
+        </ComboBox>
+        <CheckBox x:Name="AutomaticExport" Content="Automatically save to the default folder" />
+        <CheckBox x:Name="AutoSaveAs" Content="Open Save As after each capture" />
+        <TextBlock TextWrapping="Wrap" Text="Automatic Save As opens an activating dialog. Further captures remain in Recent while a dialog is open. Enabling both automatic saving options can create two exported copies. JPEG flattens transparency onto white." />
+        <TextBlock Text="Recovery storage" Style="{StaticResource SectionHeading}" />
+        <Label Content="Keep recovery copies for 1–30 days" Target="{Binding ElementName=RetentionDays}" Padding="0,0,0,6" />
+        <TextBox x:Name="RetentionDays" Width="100" HorizontalAlignment="Left" AutomationProperties.Name="Recovery retention in days" />
+        <Label Content="Recovery budget in MiB (minimum 64)" Target="{Binding ElementName=Budget}" Padding="0,12,0,6" />
+        <TextBox x:Name="Budget" Width="100" HorizontalAlignment="Left" AutomationProperties.Name="Recovery storage budget in MiB" />
+        <TextBlock x:Name="UsageText" Margin="0,8,0,8" TextWrapping="Wrap" />
+        <TextBlock TextWrapping="Wrap" Text="Only expired, unkept, unused recovery copies are removed automatically. If the budget is full, monitoring pauses. Exported copies are never part of automatic cleanup." />
+        <WrapPanel Margin="0,12,0,0">
+          <Button Content="Open recovery folder" Click="RecoveryClick" /><Button Content="Recent captures" Click="RecentClick" />
+          <Button Content="Resume monitoring" Click="ResumeClick" />
+        </WrapPanel>
+        <TextBlock Text="General" Style="{StaticResource SectionHeading}" />
+        <CheckBox x:Name="Startup" Content="Start SnapDrop when I sign in to Windows" />
+        <Button Content="Open local logs" Click="LogsClick" HorizontalAlignment="Left" Margin="0,8,0,0" />
+        <TextBlock Margin="0,12,0,0" TextWrapping="Wrap" Text="SnapDrop 0.1 · Local processing and storage. No screenshot uploads or remote telemetry. Windows clipboard history, clipboard sync, and synced destination folders are controlled separately." />
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

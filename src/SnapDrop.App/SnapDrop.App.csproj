@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>../../packaging/assets/SnapDrop.ico</ApplicationIcon>
+    <!-- WPF owns startup and PerMonitorV2 via its manifest. WinForms is used only for NotifyIcon. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../SnapDrop.Core/SnapDrop.Core.csproj" />
+    <ProjectReference Include="../SnapDrop.Windows/SnapDrop.Windows.csproj" />
+    <ProjectReference Include="../SnapDrop.Infrastructure/SnapDrop.Infrastructure.csproj" />
+    <Content Include="../../packaging/assets/SnapDrop.ico" Link="SnapDrop.ico" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

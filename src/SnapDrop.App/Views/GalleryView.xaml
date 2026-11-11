@@ -1,0 +1,45 @@
+<UserControl x:Class="SnapDrop.App.Views.GalleryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:SnapDrop.App.Views.Controls" SizeChanged="ViewportChanged">
+  <UserControl.Resources>
+    <DataTemplate x:Key="GridEntry"><controls:ScreenshotCard/></DataTemplate>
+    <DataTemplate x:Key="ListEntry"><DockPanel Margin="4,8"><Image Source="{Binding Thumbnail}" Width="100" Height="64" Stretch="Uniform" Margin="0,0,16,0"/><StackPanel VerticalAlignment="Center"><TextBlock Text="{Binding FileName}" FontWeight="SemiBold"/><TextBlock Text="{Binding Metadata}" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,5,0,0"/><TextBlock Text="{Binding Availability}" Foreground="{DynamicResource MutedTextBrush}" Margin="0,4,0,0"/></StackPanel></DockPanel></DataTemplate>
+  </UserControl.Resources>
+  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition x:Name="DetailColumn" Width="280"/></Grid.ColumnDefinitions>
+    <DockPanel>
+      <Grid DockPanel.Dock="Top" Margin="0,0,0,16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="150"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" ToolTip="Search filenames, dates, and dimensions" AutomationProperties.Name="Search screenshots" Margin="0,0,12,0"/>
+        <ComboBox Grid.Column="1" SelectedValue="{Binding TimeRange}" SelectedValuePath="Content" AutomationProperties.Name="History date range"><ComboBoxItem Content="All time"/><ComboBoxItem Content="Today"/><ComboBoxItem Content="Last 7 days"/></ComboBox>
+        <CheckBox Grid.Column="2" Content="List view" IsChecked="{Binding ListView}" Margin="16,0,0,0" AutomationProperties.Name="Use compact screenshot list"/>
+      </Grid>
+      <DockPanel DockPanel.Dock="Bottom" Margin="0,16,0,0"><Button Content="Load more" Command="{Binding LoadMoreCommand}" DockPanel.Dock="Right" Margin="12,0,0,0"/><StackPanel><TextBlock Text="{Binding Summary}" Foreground="{DynamicResource SecondaryTextBrush}"/><TextBlock Text="{Binding Status}" TextWrapping="Wrap" Margin="0,4,0,0" AutomationProperties.LiveSetting="Polite"/></StackPanel></DockPanel>
+      <Grid>
+        <ListBox x:Name="GalleryList" ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}" MouseDoubleClick="OpenSelected" AutomationProperties.Name="Screenshot gallery">
+          <ListBox.Style><Style TargetType="ListBox" BasedOn="{StaticResource ScreenshotList}"><Setter Property="ItemTemplate" Value="{StaticResource GridEntry}"/>
+            <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></Setter.Value></Setter>
+            <Style.Triggers><DataTrigger Binding="{Binding ListView}" Value="True"><Setter Property="ItemTemplate" Value="{StaticResource ListEntry}"/><Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><VirtualizingStackPanel/></ItemsPanelTemplate></Setter.Value></Setter></DataTrigger></Style.Triggers>
+          </Style></ListBox.Style>
+          <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Width" Value="222"/><Setter Property="Margin" Value="0,0,10,12"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Foreground" Value="{DynamicResource TextBrush}"/><Style.Triggers><DataTrigger Binding="{Binding DataContext.ListView, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True"><Setter Property="Width" Value="Auto"/><Setter Property="Margin" Value="0,0,0,4"/></DataTrigger></Style.Triggers></Style></ListBox.ItemContainerStyle>
+        </ListBox>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="360" Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibility}}">
+          <Path Data="{StaticResource Icon.Image}" Stroke="{DynamicResource MutedTextBrush}" StrokeThickness="1.5" Width="48" Height="48" Stretch="Uniform" Margin="0,0,0,20"/>
+          <TextBlock Text="No screenshots yet" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+          <TextBlock Text="Capture one to get started, or clear the search to see your saved recovery copies." Style="{StaticResource SecondaryText}" TextAlignment="Center" Margin="0,10,0,20"/>
+          <Button Content="Take screenshot" Command="{Binding CaptureCommand}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Grid>
+    </DockPanel>
+    <Border x:Name="DetailRail" Grid.Column="1" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardRadius}" Padding="18" Margin="20,0,0,0">
+      <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Visibility="{Binding HasSelection, Converter={StaticResource BooleanToVisibility}}">
+        <Image Source="{Binding Selected.Thumbnail}" Height="160" Stretch="Uniform" Margin="0,0,0,18"/>
+        <TextBlock Text="{Binding Selected.FileName}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <TextBlock Text="{Binding Selected.Metadata}" Style="{StaticResource SecondaryText}" Margin="0,10,0,0"/>
+        <TextBlock Text="{Binding Selected.Size}" Style="{StaticResource SecondaryText}" Margin="0,6,0,0"/>
+        <TextBlock Text="Clipboard image · PNG original" Style="{StaticResource SecondaryText}" Margin="0,6,0,0"/>
+        <TextBlock Text="{Binding Selected.Availability}" Style="{StaticResource SecondaryText}" Margin="0,8,0,20"/>
+        <Button Content="Open preview" Command="{Binding OpenCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,8"/>
+        <Button Content="Copy image" Command="{Binding CopyCommand}" Margin="0,0,0,8"/><Button Content="Save As…" Command="{Binding SaveAsCommand}" Margin="0,0,0,8"/>
+        <Button Content="Save to default folder" Command="{Binding SaveCommand}" Margin="0,0,0,8"/><Button Content="Keep / release recovery copy" Command="{Binding KeepCommand}" Margin="0,0,0,8"/>
+        <Button Content="Open recovery folder" Command="{Binding FolderCommand}" Margin="0,0,0,8"/><Button Content="Delete recovery copy" Command="{Binding DeleteCommand}" Style="{StaticResource DangerButton}"/>
+      </StackPanel></ScrollViewer>
+    </Border>
+  </Grid>
+</UserControl>

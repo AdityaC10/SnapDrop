@@ -1,0 +1,106 @@
+<UserControl x:Class="SnapDrop.App.Views.SettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" SizeChanged="ViewportChanged">
+  <UserControl.Resources><sys:Int32 x:Key="Seconds3">3</sys:Int32><sys:Int32 x:Key="Seconds5">5</sys:Int32><sys:Int32 x:Key="Seconds10">10</sys:Int32><sys:Int32 x:Key="Seconds15">15</sys:Int32><sys:Int32 x:Key="SecondsNever">0</sys:Int32></UserControl.Resources>
+  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="174"/><ColumnDefinition Width="*"/><ColumnDefinition x:Name="SummaryColumn" Width="240"/></Grid.ColumnDefinitions>
+    <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0" Padding="0,0,16,0" Margin="0,0,22,0">
+      <ListBox ItemsSource="{Binding NavigationCategories}" SelectedItem="{Binding Category}" Background="Transparent" BorderThickness="0" AutomationProperties.Name="Settings categories">
+        <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Padding" Value="14,12"/><Setter Property="Margin" Value="0,3"/><Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+          <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><Border x:Name="ItemFrame" Padding="{TemplateBinding Padding}" CornerRadius="{StaticResource ControlRadius}" Background="Transparent" BorderBrush="Transparent" BorderThickness="1"><ContentPresenter/></Border><ControlTemplate.Triggers><Trigger Property="IsSelected" Value="True"><Setter TargetName="ItemFrame" Property="Background" Value="{DynamicResource AccentBrush}"/><Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/></Trigger><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ItemFrame" Property="BorderBrush" Value="{DynamicResource FocusBrush}"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ItemFrame" Property="BorderBrush" Value="{DynamicResource FocusBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+        </Style></ListBox.ItemContainerStyle>
+      </ListBox>
+    </Border>
+    <DockPanel Grid.Column="1">
+      <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20"><TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}"/><TextBlock Text="{Binding Description}" Style="{StaticResource SecondaryText}"/></StackPanel>
+      <TextBlock DockPanel.Dock="Bottom" Text="{Binding Status}" TextWrapping="Wrap" Margin="0,16,0,0" AutomationProperties.LiveSetting="Polite"/>
+      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,12,0">
+        <StackPanel>
+          <StackPanel Visibility="{Binding IsGeneral, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="Startup &amp; background" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Start with Windows" Tag="Run SnapDrop when you sign in. Off until you choose it." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding Startup}" AutomationProperties.Name="Start with Windows"/></HeaderedContentControl>
+              <TextBlock Text="Closing the main window leaves SnapDrop in the tray. Use Exit from the tray to quit." Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+            </StackPanel></GroupBox>
+            <GroupBox Header="Floating preview" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Show after capture" Tag="Display a draggable thumbnail without opening the app." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding ShowPreview}" AutomationProperties.Name="Show floating preview"/></HeaderedContentControl>
+              <HeaderedContentControl Header="Preview duration" Tag="Hover, focus, Pin, and active actions pause dismissal." Style="{StaticResource SettingRow}"><ComboBox SelectedValue="{Binding Duration}" SelectedValuePath="Tag" AutomationProperties.Name="Floating preview duration"><ComboBoxItem Content="3 seconds" Tag="{StaticResource Seconds3}"/><ComboBoxItem Content="5 seconds" Tag="{StaticResource Seconds5}"/><ComboBoxItem Content="10 seconds" Tag="{StaticResource Seconds10}"/><ComboBoxItem Content="15 seconds" Tag="{StaticResource Seconds15}"/><ComboBoxItem Content="Until dismissed" Tag="{StaticResource SecondsNever}"/></ComboBox></HeaderedContentControl>
+              <TextBlock Text="Clicking the screenshot opens its viewer. Dismissal never deletes the recovery copy." Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+            </StackPanel></GroupBox>
+            <GroupBox Header="Clipboard image monitoring" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Show new clipboard images" Tag="Includes screenshots and images copied from other apps. Images stay on this computer." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding Monitoring}" AutomationProperties.Name="Enable clipboard image monitoring"/></HeaderedContentControl>
+              <Button Content="Pause / resume monitoring" Command="{Binding ResumeCommand}" Margin="0,18,0,0" HorizontalAlignment="Left"/>
+              <TextBlock Text="Snipping Tool notifications and automatic saving remain controlled by Windows." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+            </StackPanel></GroupBox>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsCapture, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="Capture with Windows" Style="{StaticResource SectionCard}"><StackPanel>
+              <TextBlock Text="Windows Snipping Tool captures the pixels. SnapDrop receives a clipboard image after you finish the selection." TextWrapping="Wrap" Margin="0,12,0,12"/>
+              <Button Content="Open Windows capture" Style="{StaticResource PrimaryButton}" Command="{Binding CaptureCommand}" HorizontalAlignment="Left"/>
+              <TextBlock Text="Enable clipboard images in General before requesting capture. The capture command sends Windows' own Win + Shift + S shortcut; it does not register or replace it." Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+            </StackPanel></GroupBox>
+            <GroupBox Header="Native capture · planned for 0.2" Style="{StaticResource SectionCard}"><TextBlock Text="SnapDrop-owned region, window, and full-screen capture, cursor options, selection magnifier, and capture feedback arrive with the native engine. They do not change Snipping Tool settings." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/></GroupBox>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsSaveFiles, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="Save location" Style="{StaticResource SectionCard}"><StackPanel>
+              <TextBlock Text="Default screenshot folder" Margin="0,12,0,8"/>
+              <DockPanel><Button Content="Browse…" Command="{Binding BrowseCommand}" DockPanel.Dock="Right" Margin="10,0,0,0"/><TextBox Text="{Binding DefaultFolder, UpdateSourceTrigger=LostFocus}" AutomationProperties.Name="Default screenshot folder"/></DockPanel>
+              <HeaderedContentControl Header="Automatically save a copy" Tag="Opt-in for clipboard images. Recovery storage remains separate." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding AutoSave}" AutomationProperties.Name="Automatically save to default folder"/></HeaderedContentControl>
+              <HeaderedContentControl Header="Open Save As after capture" Tag="Choose a destination immediately. Opens an activating native dialog." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding AutoSaveAs}" AutomationProperties.Name="Open Save As after capture"/></HeaderedContentControl>
+              <HeaderedContentControl Header="Remember last destination" Tag="Use the last successful Save As location next time." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding RememberFolder}" AutomationProperties.Name="Remember last save folder"/></HeaderedContentControl>
+              <HeaderedContentControl Header="Organize exports by date" Tag="Use a yyyy-MM-dd folder inside the default folder." Style="{StaticResource SettingRow}"><CheckBox IsChecked="{Binding OrganizeByDate}" AutomationProperties.Name="Organize default exports by date"/></HeaderedContentControl>
+            </StackPanel></GroupBox>
+            <GroupBox Header="Format &amp; naming" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Default format" Tag="PNG preserves received pixels. JPEG is a lossy copy." Style="{StaticResource SettingRow}"><ComboBox SelectedIndex="{Binding Format}" AutomationProperties.Name="Default image format"><ComboBoxItem Content="PNG"/><ComboBoxItem Content="JPEG"/></ComboBox></HeaderedContentControl>
+              <HeaderedContentControl Header="JPEG quality" Tag="Applies only to JPEG. Transparency is flattened onto white." Style="{StaticResource SettingRow}"><StackPanel Width="150" IsEnabled="{Binding IsJpeg}"><Slider Minimum="1" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding JpegQuality}" AutomationProperties.Name="JPEG quality"/><TextBlock Text="{Binding JpegQuality, StringFormat={}{0}%}" HorizontalAlignment="Right"/></StackPanel></HeaderedContentControl>
+              <HeaderedContentControl Header="Filename preset" Tag="A unique identifier prevents same-second collisions." Style="{StaticResource SettingRow}"><ComboBox SelectedIndex="{Binding Naming}" AutomationProperties.Name="Export filename preset"><ComboBoxItem Content="Screenshot + timestamp"/><ComboBoxItem Content="Compact"/></ComboBox></HeaderedContentControl>
+              <TextBlock Text="{Binding NamingExample}" Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+              <TextBlock Text="Originals are preserved. Save As uses the native Windows picker; PNG has no lossy quality slider." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+            </StackPanel></GroupBox>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsShortcuts, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="Windows capture shortcut" Style="{StaticResource SectionCard}"><StackPanel>
+              <Border Background="{DynamicResource InputBrush}" CornerRadius="9" Padding="20" Margin="0,12"><TextBlock Text="Win  +  Shift  +  S" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center"/></Border>
+              <TextBlock Text="Windows Snipping Tool · managed by Windows" FontWeight="SemiBold"/><TextBlock Text="This binding is shown for reference and cannot be edited by SnapDrop. No global shortcuts are registered in the companion release." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+            </StackPanel></GroupBox>
+            <GroupBox Header="App keyboard access" Style="{StaticResource SectionCard}"><TextBlock Text="Use Tab and Shift + Tab to move between controls. Enter activates the focused action. Escape dismisses a focused thumbnail or cancels a native file dialog. Future native shortcuts will be checked for conflicts before registration." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/></GroupBox>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsAppearance, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="App theme" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Theme" Tag="Follow Windows or choose your preferred appearance." Style="{StaticResource SettingRow}"><ComboBox SelectedIndex="{Binding Theme}" AutomationProperties.Name="App theme"><ComboBoxItem Content="Follow system"/><ComboBoxItem Content="Dark"/><ComboBoxItem Content="Light"/></ComboBox></HeaderedContentControl>
+              <HeaderedContentControl Header="Thumbnail size" Tag="Resize the preview only. Original image pixels are unchanged." Style="{StaticResource SettingRow}"><ComboBox SelectedIndex="{Binding PreviewSize}" AutomationProperties.Name="Floating thumbnail size"><ComboBoxItem Content="Small"/><ComboBoxItem Content="Medium"/><ComboBoxItem Content="Large"/></ComboBox></HeaderedContentControl>
+              <TextBlock Text="Windows high-contrast colors take priority. Acrylic, custom accents, and rich animation controls are deferred until their behavior is implemented and qualified." Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+            </StackPanel></GroupBox>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsAdvanced, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="Recovery storage &amp; cleanup" Style="{StaticResource SectionCard}"><StackPanel>
+              <HeaderedContentControl Header="Retention in days" Tag="1–30 days. Kept images and active transfers are protected." Style="{StaticResource SettingRow}"><TextBox Text="{Binding RetentionDays, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}" Width="100" AutomationProperties.Name="Recovery retention days"/></HeaderedContentControl>
+              <HeaderedContentControl Header="Storage budget in MiB" Tag="A soft budget. Monitoring pauses if safe cleanup cannot free space." Style="{StaticResource SettingRow}"><TextBox Text="{Binding BudgetMiB, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}" Width="100" AutomationProperties.Name="Recovery budget MiB"/></HeaderedContentControl>
+              <WrapPanel Margin="0,18,0,0"><Button Content="Open recovery folder" Command="{Binding OpenRecoveryCommand}" Margin="0,0,8,8"/><Button Content="Clean expired copies" Command="{Binding CleanupCommand}" Margin="0,0,0,8"/></WrapPanel>
+              <TextBlock Text="Cleanup is restricted to eligible managed recovery files. User-exported copies are never automatic cleanup targets." Style="{StaticResource SecondaryText}" Margin="0,8,0,0"/>
+            </StackPanel></GroupBox>
+            <GroupBox Header="Local diagnostics" Style="{StaticResource SectionCard}"><StackPanel>
+              <TextBlock Text="Logs record operation types and timing, not screenshot pixels or clipboard contents. A diagnostic report contains a local environment/count summary without file paths or capture identifiers." Style="{StaticResource SecondaryText}" Margin="0,12,0,16"/>
+              <WrapPanel><Button Content="Open logs" Command="{Binding OpenLogsCommand}" Margin="0,0,8,8"/><Button Content="Export diagnostic summary" Command="{Binding DiagnosticsCommand}" Margin="0,0,0,8"/></WrapPanel>
+            </StackPanel></GroupBox>
+            <Button Content="Reset preferences" Command="{Binding ResetCommand}" Style="{StaticResource DangerButton}" HorizontalAlignment="Left"/>
+          </StackPanel>
+          <StackPanel Visibility="{Binding IsAbout, Converter={StaticResource BooleanToVisibility}}">
+            <GroupBox Header="SnapDrop" Style="{StaticResource SectionCard}"><StackPanel>
+              <TextBlock Text="Capture · preview · save anywhere" FontSize="18" FontWeight="SemiBold" Margin="0,12"/>
+              <TextBlock Text="{Binding Version, StringFormat=Version {0}}" Style="{StaticResource SecondaryText}"/>
+              <TextBlock Text="A local-first screenshot companion for Windows. No account, cloud backend, screenshot uploads, or remote telemetry." Style="{StaticResource SecondaryText}" Margin="0,16,0,0"/>
+              <TextBlock Text="Compatibility depends on the target app accepting file drops. This build's source and runtime verification status are recorded in the repository." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+            </StackPanel></GroupBox>
+          </StackPanel>
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+    <StackPanel x:Name="SummaryRail" Grid.Column="2" Margin="24,0,0,0">
+      <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="{StaticResource PanelRadius}" Padding="20">
+        <StackPanel><Border Background="{DynamicResource InputBrush}" CornerRadius="{StaticResource ThumbnailRadius}" Padding="26"><Path Data="{StaticResource Icon.Image}" Stroke="{DynamicResource FocusBrush}" StrokeThickness="1.5" Width="76" Height="76" Stretch="Uniform"/></Border>
+          <TextBlock Text="Your screenshot, ready to place" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,18,0,8"/>
+          <TextBlock Text="Theme preview illustration. No screen content is being captured here." Style="{StaticResource SecondaryText}"/>
+        </StackPanel>
+      </Border>
+      <TextBlock Text="Quick summary" Style="{StaticResource SectionHeading}"/><TextBlock Text="{Binding MonitoringStatus}" Style="{StaticResource SecondaryText}" AutomationProperties.LiveSetting="Polite"/>
+      <TextBlock Text="Recovery copies stay local. Pin controls visibility; Keep controls retention." Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

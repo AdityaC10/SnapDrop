@@ -1,0 +1,26 @@
+<UserControl x:Class="SnapDrop.App.Views.Controls.ScreenshotCard" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Border x:Name="Card" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardRadius}" Padding="10">
+    <Border.Style><Style TargetType="Border"><Style.Triggers><DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
+    <StackPanel>
+      <Border Background="{DynamicResource InputBrush}" CornerRadius="{StaticResource ControlRadius}" Padding="4"><Grid Height="120">
+        <Image Source="{Binding Thumbnail}" Stretch="Uniform" AutomationProperties.Name="{Binding Metadata}"/>
+        <TextBlock Text="Image unavailable" Foreground="{DynamicResource WarningBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsMissing, Converter={StaticResource BooleanToVisibility}}"/>
+      </Grid></Border>
+      <DockPanel Margin="0,10,0,0">
+        <Button DockPanel.Dock="Right" Content="More" Style="{StaticResource IconButton}" Click="MoreClick" ToolTip="Screenshot actions" AutomationProperties.Name="Screenshot actions">
+          <Button.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+            <MenuItem Header="Open preview" Command="{Binding Owner.OpenCommand}" CommandParameter="{Binding}"/>
+            <MenuItem Header="Copy image" Command="{Binding Owner.CopyCommand}" CommandParameter="{Binding}"/>
+            <MenuItem Header="Save As…" Command="{Binding Owner.SaveAsCommand}" CommandParameter="{Binding}"/>
+            <MenuItem Header="Save to default folder" Command="{Binding Owner.SaveCommand}" CommandParameter="{Binding}"/>
+            <MenuItem Header="Open recovery folder" Command="{Binding Owner.FolderCommand}" CommandParameter="{Binding}"/>
+            <Separator/><MenuItem Header="Delete recovery copy" Command="{Binding Owner.DeleteCommand}" CommandParameter="{Binding}"/>
+          </ContextMenu></Button.ContextMenu>
+        </Button>
+        <TextBlock Text="{Binding FileName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding FileName}" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,6,0"/>
+      </DockPanel>
+      <TextBlock Text="{Binding Metadata}" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+      <TextBlock Text="{Binding Size}" FontSize="11" Foreground="{DynamicResource MutedTextBrush}" Margin="0,4,0,0"/>
+    </StackPanel>
+  </Border>
+</UserControl>
