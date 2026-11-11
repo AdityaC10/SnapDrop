@@ -1,0 +1,45 @@
+name: Windows build and tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+      - name: SDK setup safeguards (no download or install)
+        shell: pwsh
+        run: ./scripts/test-sdk-setup.ps1
+      - name: Build (locked restore once lock files exist)
+        shell: pwsh
+        run: ./scripts/build.ps1
+      - name: Noninteractive regression tests
+        shell: pwsh
+        run: ./scripts/test.ps1 -NoBuild
+      - name: Publish unsigned candidate
+        shell: pwsh
+        run: dotnet publish src/SnapDrop.App/SnapDrop.App.csproj -c Release -r win-x64 --self-contained true -p:RestoreLockedMode=true -p:PublishTrimmed=false -p:PublishSingleFile=false -o artifacts/ci/win-x64
+      - name: Upload test results, lock files, and unsigned candidate
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: snapdrop-windows-verification-unsigned
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            artifacts/TestResults/
+            artifacts/sdk-setup-tests.json
+            artifacts/ci/
+            **/packages.lock.json
