@@ -1,0 +1,39 @@
+﻿{
+    "Kind":  "Markup-only fixtures, not .NET 10 application execution",
+    "Framework":  "4.0.30319.42000",
+    "CreatedAt":  "2026-11-11T06:36:03.6116954+00:00",
+    "Views":  [
+                  {
+                      "Source":  "D:\\Projects\\SnapDrop\\src\\SnapDrop.App\\FloatingPreviewWindow.xaml",
+                      "Sha256":  "009F050047612C9A7300D5862FB5FB34530EB93462BFA2D8378392C4E8B0B865",
+                      "Width":  310,
+                      "Height":  283,
+                      "MarkupLoaded":  true,
+                      "EventHandlersExecuted":  false
+                  },
+                  {
+                      "Source":  "D:\\Projects\\SnapDrop\\src\\SnapDrop.App\\ScreenshotViewerWindow.xaml",
+                      "Sha256":  "126289CD5AF3C044418F4B7F4F604F8AF05FB77D3C1CFE2707FDAB3BF4A438B5",
+                      "Width":  920,
+                      "Height":  680,
+                      "MarkupLoaded":  true,
+                      "EventHandlersExecuted":  false
+                  },
+                  {
+                      "Source":  "D:\\Projects\\SnapDrop\\src\\SnapDrop.App\\SettingsWindow.xaml",
+                      "Sha256":  "AC271B1D9AB3A2F6710F019F5FC694939C51E73C16244C659212E9147338659F",
+                      "Width":  600,
+                      "Height":  760,
+                      "MarkupLoaded":  true,
+                      "EventHandlersExecuted":  false
+                  },
+                  {
+                      "Source":  "D:\\Projects\\SnapDrop\\src\\SnapDrop.App\\RecentCapturesWindow.xaml",
+                      "Sha256":  "4BE217D9442EA662CE2804F561A3A505EFDA62DD8B665C6D700D137E1981632F",
+                      "Width":  760,
+                      "Height":  650,
+                      "MarkupLoaded":  true,
+                      "EventHandlersExecuted":  false
+                  }
+              ]
+}
